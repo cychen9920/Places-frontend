@@ -5,12 +5,16 @@ import MapComponent from "./MapComponent";
 function App() {
   return (
     <div className="App">
-      <h1>
+      <h1 className="centered-text">
         Oh, The Places You'll Go!
       </h1>
-      <h2>
-        Click to set a marker and save a spot!
-      </h2>
+      <div style={{ height: '24px' }}></div>
+      <h3 className="left-text">
+        <ol>
+          <li>Click to set a marker and save a spot!</li>
+          <li>Click on any of your saved places to read your notes!</li>
+        </ol>
+      </h3>
       <header className="App-header">
         <MapComponent />
       </header>
