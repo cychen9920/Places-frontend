@@ -11,6 +11,21 @@ const center = {
   lng: -71.0589,
 };
 
+const getIconForType = (type) => {
+  switch (type) {
+    case "Food":
+      return "https://maps.google.com/mapfiles/ms/icons/red-dot.png";
+    case "Shopping":
+      return "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+    case "Attractions":
+      return "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
+    case "Entertainment":
+      return "https://maps.google.com/mapfiles/ms/icons/purple-dot.png";
+    default:
+      return "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"; // fallback icon
+  }
+};
+
 const MapComponent = () => {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -101,6 +116,7 @@ const MapComponent = () => {
           <Marker
             key={marker.id}
             position={marker.position}
+            icon={getIconForType(marker.type)}
             onClick={() => setSelectedMarker(marker)}
           />
         ))}
@@ -134,8 +150,9 @@ const MapComponent = () => {
                   >
                     <option value="">Select type</option>
                     <option value="Food">Food</option>
-                    <option value="Store">Store</option>
-                    <option value="Attraction">Attraction</option>
+                    <option value="Shopping">Store</option>
+                    <option value="Attractions">Attraction</option>
+                    <option value="Entertainment">Entertainment</option>
                   </select>
                 </label>
                 <br />
