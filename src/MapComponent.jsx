@@ -46,7 +46,7 @@ const MapComponent = () => {
     };
 
 
-    fetch("http://localhost:4000/places", {
+    fetch("https://places-backend-s3l5.onrender.com/places", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newPlace),
@@ -68,7 +68,7 @@ const MapComponent = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:4000/places/${id}`, {
+      await fetch(`https://places-backend-s3l5.onrender.com/places/${id}`, {
         method: 'DELETE',
       });
       // Remove from frontend state
@@ -81,7 +81,7 @@ const MapComponent = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:4000/places")
+    fetch("https://places-backend-s3l5.onrender.com/places")
       .then((res) => res.json())
       .then((data) => {
         setMarkers(data);
