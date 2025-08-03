@@ -14,13 +14,13 @@ const center = {
 const getIconForType = (type) => {
   switch (type) {
     case "Food":
-      return "https://maps.google.com/mapfiles/ms/icons/red-dot.png";
+      return "/icons/Food.png";
     case "Shopping":
-      return "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+      return "/icons/Shopping.png";
     case "Attractions":
-      return "https://maps.google.com/mapfiles/ms/icons/green-dot.png";
+      return "/icons/Attractions.png";
     case "Entertainment":
-      return "https://maps.google.com/mapfiles/ms/icons/purple-dot.png";
+      return "/icons/Entertainment.png";
     default:
       return "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"; // fallback icon
   }
@@ -150,7 +150,7 @@ const MapComponent = () => {
                   >
                     <option value="">Select type</option>
                     <option value="Food">Food</option>
-                    <option value="Shopping">Store</option>
+                    <option value="Shopping">Shopping</option>
                     <option value="Attractions">Attraction</option>
                     <option value="Entertainment">Entertainment</option>
                   </select>
