@@ -167,8 +167,10 @@ const MapComponent = () => {
                   />
                 </label>
                 <br />
-                <button type="submit">Save Place</button>
-                <button type="button" onClick={() => setNewMarkerPosition(null)}>Cancel</button>
+                <div class="flex_container">
+                <button class="form-button" type="submit">Save Place</button>
+                <button class="form-button" type="button" onClick={() => setNewMarkerPosition(null)}>Cancel</button>
+                </div>
               </div>
               </form>
             </div>
@@ -187,7 +189,7 @@ const MapComponent = () => {
               <h3>Name: {selectedMarker.name}</h3>
               <p>Type: {selectedMarker.type}</p>
               <p>Notes: {selectedMarker.notes}</p>
-              <button onClick={() => handleDelete(selectedMarker.id)}>Delete</button>
+              <button class="form-button" onClick={() => handleDelete(selectedMarker.id)}>Delete</button>
             </div>
           </InfoWindow>
         )}
