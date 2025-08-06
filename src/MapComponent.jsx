@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
+import './App.css';
 
 const containerStyle = {
   width: "100%",
@@ -127,8 +128,9 @@ const MapComponent = () => {
             position={newMarkerPosition}
             onCloseClick={() => setNewMarkerPosition(null)}
           >
-            <div style={{ color: 'black' }}>
+            <div>
               <form onSubmit={handleSubmit}>
+                <div>
                 <label>
                   Place Name:<br />
                   <input
@@ -167,6 +169,7 @@ const MapComponent = () => {
                 <br />
                 <button type="submit">Save Place</button>
                 <button type="button" onClick={() => setNewMarkerPosition(null)}>Cancel</button>
+              </div>
               </form>
             </div>
           </InfoWindow>
@@ -180,7 +183,7 @@ const MapComponent = () => {
             position={selectedMarker.position}
             onCloseClick={() => setSelectedMarker(null)}
           >
-            <div style = {{color: 'black'}}>
+            <div>
               <h3>Name: {selectedMarker.name}</h3>
               <p>Type: {selectedMarker.type}</p>
               <p>Notes: {selectedMarker.notes}</p>
