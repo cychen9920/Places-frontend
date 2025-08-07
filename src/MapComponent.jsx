@@ -70,7 +70,7 @@ const MapComponent = () => {
       .then((res) => res.json())
       .then((savedPlace) => {
         setMarkers((prev) => {
-          if (prev.find(marker => marker.id === savedPlace.id)) {
+          if (prev.find(marker => marker._id === savedPlace._id)) {
             return prev; // already exists, no duplicate
           }
           return [...prev, savedPlace];
@@ -88,7 +88,7 @@ const MapComponent = () => {
         method: 'DELETE',
       });
       // Remove from frontend state
-      setMarkers((prevMarkers) => prevMarkers.filter(marker => marker.id !== id));
+      setMarkers((prevMarkers) => prevMarkers.filter(marker => marker._id !== id));
       setSelectedMarker(null); // Close InfoWindow
     } catch (error) {
       console.error('Failed to delete marker:', error);
@@ -100,6 +100,7 @@ const MapComponent = () => {
     fetch("https://places-backend-s3l5.onrender.com/places")
       .then((res) => res.json())
       .then((data) => {
+        console.log('Fetched places:', data);
         setMarkers(data);
       })
       .catch((error) => console.error("Error fetching places:", error));
@@ -115,7 +116,7 @@ const MapComponent = () => {
       >
         {markers.map(marker => (
           <Marker
-            key={marker.id}
+            key={marker._id}
             position={marker.position}
             icon={getIconForType(marker.type)}
             onClick={() => setSelectedMarker(marker)}
@@ -167,9 +168,9 @@ const MapComponent = () => {
                   />
                 </label>
                 <br />
-                <div class="flex_container">
-                <button class="form-button" type="submit">Save Place</button>
-                <button class="form-button" type="button" onClick={() => setNewMarkerPosition(null)}>Cancel</button>
+                <div className="flex_container">
+                <button className="form-button" type="submit">Save Place</button>
+                <button className="form-button" type="button" onClick={() => setNewMarkerPosition(null)}>Cancel</button>
                 </div>
               </div>
               </form>
@@ -189,7 +190,7 @@ const MapComponent = () => {
               <h3>Name: {selectedMarker.name}</h3>
               <p>Type: {selectedMarker.type}</p>
               <p>Notes: {selectedMarker.notes}</p>
-              <button class="form-button" onClick={() => handleDelete(selectedMarker.id)}>Delete</button>
+              <button className="form-button" onClick={() => handleDelete(selectedMarker._id)}>Delete</button>
             </div>
           </InfoWindow>
         )}
