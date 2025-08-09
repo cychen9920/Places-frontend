@@ -64,7 +64,8 @@ const MapComponent = () => {
 
     fetch("https://places-backend-s3l5.onrender.com/places", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1NmI1ODQyZTE1MTFmMTUzZmMxMTkiLCJpYXQiOjE3NTQ2MjMwOTUsImV4cCI6MTc1NTIyNzg5NX0.AUifz8-SgyVc0-SHNEg3Ly1I7xUq0wy2dP9whORlvI4'},
       body: JSON.stringify(newPlace),
     })
       .then((res) => res.json())
@@ -86,6 +87,8 @@ const MapComponent = () => {
     try {
       await fetch(`https://places-backend-s3l5.onrender.com/places/${id}`, {
         method: 'DELETE',
+        headers: { "Content-Type": "application/json",
+        "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1NmI1ODQyZTE1MTFmMTUzZmMxMTkiLCJpYXQiOjE3NTQ2MjMwOTUsImV4cCI6MTc1NTIyNzg5NX0.AUifz8-SgyVc0-SHNEg3Ly1I7xUq0wy2dP9whORlvI4'}
       });
       // Remove from frontend state
       setMarkers((prevMarkers) => prevMarkers.filter(marker => marker._id !== id));
@@ -97,7 +100,10 @@ const MapComponent = () => {
 
 
   useEffect(() => {
-    fetch("https://places-backend-s3l5.onrender.com/places")
+    fetch("https://places-backend-s3l5.onrender.com/places", {
+      headers: { "Content-Type": "application/json",
+        "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1NmI1ODQyZTE1MTFmMTUzZmMxMTkiLCJpYXQiOjE3NTQ2MjMwOTUsImV4cCI6MTc1NTIyNzg5NX0.AUifz8-SgyVc0-SHNEg3Ly1I7xUq0wy2dP9whORlvI4'},
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log('Fetched places:', data);
@@ -114,7 +120,8 @@ const MapComponent = () => {
         zoom={12}
         onClick={handleMapClick}
       >
-        {markers.map(marker => (
+        console.log("rendering markers");
+        {Array.isArray(markers) && markers.map(marker => (
           <Marker
             key={marker._id}
             position={marker.position}
