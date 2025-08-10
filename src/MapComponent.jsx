@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 import './App.css';
 
+//user auth token
+const token = localStorage.getItem("token");
+
 const containerStyle = {
   width: "100%",
   height: "500px",
 };
 
+//TODO: currently Boston; allow for users to change
 const center = {
   lat: 42.3601,
   lng: -71.0589,
 };
 
+//custom icons!
 const getIconForType = (type) => {
   switch (type) {
     case "Food":
@@ -28,6 +33,7 @@ const getIconForType = (type) => {
 };
 
 const MapComponent = () => {
+  //define state vars
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [newMarkerPosition, setNewMarkerPosition] = useState(null);  // added state
@@ -37,19 +43,22 @@ const MapComponent = () => {
     notes: ""
   });
 
+  //user click on map
   const handleMapClick = (event) => {
     setNewMarkerPosition({
       lat: event.latLng.lat(),
       lng: event.latLng.lng()
-    });
-    setFormData({ name: "", type: "", notes: "" });
+    }); //store marker position
+    setFormData({ name: "", type: "", notes: "" }); //reset form data
     setSelectedMarker(null); // close any selected marker info window
   };
 
+  //update formData
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  //handle submit of new place marker
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -61,22 +70,24 @@ const MapComponent = () => {
       lng: newMarkerPosition.lng
     };
 
-
+    //save new place in backend, passing user auth info
     fetch("https://places-backend-s3l5.onrender.com/places", {
       method: "POST",
       headers: { "Content-Type": "application/json",
-        "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1NmI1ODQyZTE1MTFmMTUzZmMxMTkiLCJpYXQiOjE3NTQ2MjMwOTUsImV4cCI6MTc1NTIyNzg5NX0.AUifz8-SgyVc0-SHNEg3Ly1I7xUq0wy2dP9whORlvI4'},
+        "Authorization": `Bearer ${token}`},
       body: JSON.stringify(newPlace),
     })
       .then((res) => res.json())
+      //get savedPlace (made during POST req) from backend
       .then((savedPlace) => {
+        //prev = previous state of markers array
         setMarkers((prev) => {
           if (prev.find(marker => marker._id === savedPlace._id)) {
             return prev; // already exists, no duplicate
           }
-          return [...prev, savedPlace];
+          return [...prev, savedPlace]; //add new place to markers array
         });
-        setNewMarkerPosition(null);
+        setNewMarkerPosition(null); //close window
       })
       .catch((err) => {
         console.error("Error saving place:", err);
@@ -88,25 +99,27 @@ const MapComponent = () => {
       await fetch(`https://places-backend-s3l5.onrender.com/places/${id}`, {
         method: 'DELETE',
         headers: { "Content-Type": "application/json",
-        "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1NmI1ODQyZTE1MTFmMTUzZmMxMTkiLCJpYXQiOjE3NTQ2MjMwOTUsImV4cCI6MTc1NTIyNzg5NX0.AUifz8-SgyVc0-SHNEg3Ly1I7xUq0wy2dP9whORlvI4'}
+        "Authorization": `Bearer ${token}`}
       });
-      // Remove from frontend state
+      // Remove from markers state
       setMarkers((prevMarkers) => prevMarkers.filter(marker => marker._id !== id));
-      setSelectedMarker(null); // Close InfoWindow
-    } catch (error) {
+      setSelectedMarker(null); // close InfoWindow
+    }
+    catch (error) {
       console.error('Failed to delete marker:', error);
     }
   };
 
-
+  //fetch existing places
   useEffect(() => {
     fetch("https://places-backend-s3l5.onrender.com/places", {
       headers: { "Content-Type": "application/json",
-        "Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODk1NmI1ODQyZTE1MTFmMTUzZmMxMTkiLCJpYXQiOjE3NTQ2MjMwOTUsImV4cCI6MTc1NTIyNzg5NX0.AUifz8-SgyVc0-SHNEg3Ly1I7xUq0wy2dP9whORlvI4'},
+        "Authorization": `Bearer ${token}`},
     })
       .then((res) => res.json())
       .then((data) => {
         console.log('Fetched places:', data);
+        //store data in markers state
         setMarkers(data);
       })
       .catch((error) => console.error("Error fetching places:", error));
@@ -114,6 +127,7 @@ const MapComponent = () => {
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+      {/*Render Google Map*/}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -121,6 +135,7 @@ const MapComponent = () => {
         onClick={handleMapClick}
       >
         console.log("rendering markers");
+        {/*Iterate over markers, create Marker for each*/}
         {Array.isArray(markers) && markers.map(marker => (
           <Marker
             key={marker._id}
@@ -130,7 +145,7 @@ const MapComponent = () => {
           />
         ))}
 
-        {/* Show form when user clicks on map, before saving */}
+        {/* Show form when click on map, before saving */}
         {newMarkerPosition && (
           <InfoWindow
             position={newMarkerPosition}
