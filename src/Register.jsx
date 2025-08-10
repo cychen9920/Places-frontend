@@ -39,6 +39,7 @@ export default function Register({ onRegister }) {
     <form onSubmit={handleSubmit}>
         <h3>Register</h3>
         {error && <div style={{ color: "red" }}>{error}</div>}
+        <div className = "flex_container_left">
         <input name="email" value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="Email" required />
@@ -46,6 +47,7 @@ export default function Register({ onRegister }) {
             onChange={e => setPassword(e.target.value)}
             placeholder="Password" required />
         <button type="submit">Register</button>
+        </div>
     </form>
     );
 }

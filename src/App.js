@@ -21,11 +21,14 @@ function App() {
     setToken(tok); // MapComponent can read from localStorage or receive token prop
   };
 
+  //UI when user is logged out
   //no token --> return to login/register page
   if (!token) {
     return (
-      <div>
-        <h1>Please login or register</h1>
+      <div className = "Login_page">
+        <div className="login_h1_container">
+          <h1 className = "login_page_h1">Login or register to get started!</h1>
+        </div>
         <Login onLogin={onLogin} />
         <hr />
         <Register onRegister={onLogin} />
@@ -37,7 +40,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={handleLogout}>Logout</button>
-      <div className="header1_container">
+      <div className="map_page_h1">
         <h1>Oh, The Places You'll Go!</h1>
       </div>
       <div style={{ height: '24px' }}></div>
@@ -50,7 +53,7 @@ function App() {
           <li>Scroll and zoom around the map to explore.</li>
         </ol>
       </h3>
-      <div className="App-header">
+      <div className="Map-header">
         <MapComponent token={token} />
       </div>
     </div>

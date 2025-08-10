@@ -13,6 +13,11 @@
   background-color: #dbe6da;
 }
 
+.Login_page {
+  background-color: #caddcf;
+  min-height: 100vh;
+}
+
 .centered-text {
   text-align: center;
 }
@@ -26,28 +31,26 @@ h3.left-text {
   line-height: 170%;
 }
 
-h1 {
-  margin-top: 0;
-  padding-top: 20px;
-  font-size: 250%;
+.login_h1_container {
+  text-align: center;
 }
 
 h2 {
   padding-left: 3%;
 }
 
-.App-header {
+.Map-header {
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-.header1_container{
+.map_page_h1{
+    font-size: 150%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 1px;
     background-color: #86a884;
     display: flex;
     height: 80px;
@@ -57,8 +60,31 @@ h2 {
     border-style: solid;
     border-width: 2px;
 }
+
+.login_page_h1 {
+    font-size: 150%;
+    background-color: #86a884;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    border-color: #3d5741;
+    border-style: solid;
+    border-width: 2px;
+}
+
 .flex_container{
   display: flex;
+  justify-content: space-between;
+}
+
+.flex_container_left {
+  display: flex;
+  gap: 30%;
+  width: 20%;
   justify-content: space-between;
 }
 

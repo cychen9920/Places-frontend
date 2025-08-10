@@ -34,6 +34,7 @@ export default function Login({ onLogin }) {
     <form onSubmit={handleSubmit}>
         <h3>Login</h3>
         {error && <div style={{ color: "red" }}>{error}</div>}
+        <div className = "flex_container_left">
         <input name="email" value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="Email" required />
@@ -41,6 +42,7 @@ export default function Login({ onLogin }) {
             onChange={e => setPassword(e.target.value)}
             placeholder="Password" required />
         <button type="submit">Login</button>
+        </div>
     </form>
     );
 }
