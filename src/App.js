@@ -1,8 +1,9 @@
 //useState for JWT token, useEffect for token changes
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import MapComponent from "./MapComponent";
 import Login from "./Login";
 import Register from "./Register";
+import PlacesTable from "./PlacesTable";
 import './App.css';
 
 
@@ -10,7 +11,12 @@ function App() {
   // if localStorage has token (eg refresh), user stays logged in
   const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-  //remove token from localStorage, token state to null
+  const [places, setPlaces] = useState([]);
+
+  // Boolean state, trigger refresh of places (for table)
+  const [refresh, setRefresh] = useState(false);
+
+  //Logout: remove token from localStorage, token state to null
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -20,6 +26,25 @@ function App() {
   const onLogin = (tok) => {
     setToken(tok); // MapComponent can read from localStorage or receive token prop
   };
+
+  //when token or refresh changes, fetch places again
+  useEffect(() => {
+    if (token) {
+      fetch("https://places-backend-s3l5.onrender.com/places", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        }, })
+        .then(res => res.json()) //parse response
+        .then(data => {setPlaces(data);}) //update places
+        .catch(err => {console.error("Failed to fetch places:", err);});
+    }
+    else {
+      setPlaces([]);  // clear places on logout (no token)
+    }}, [token, refresh]); //runs if token, refresh changes
+
+  //toggle refresh state
+  function triggerRefresh () {setRefresh(prev => !prev);}
 
   //UI when user is logged out
   //no token --> return to login/register page
@@ -54,8 +79,12 @@ function App() {
         </ol>
       </h3>
       <div className="Map-header">
-        <MapComponent token={token} />
+        <MapComponent token={token} triggerRefresh={triggerRefresh}/>
       </div>
+      <div>
+          <PlacesTable places={places} />
+      </div>
+
     </div>
   );
 }

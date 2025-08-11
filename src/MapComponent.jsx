@@ -32,7 +32,7 @@ const getIconForType = (type) => {
   }
 };
 
-const MapComponent = () => {
+const MapComponent = ( {token, triggerRefresh}) => {
   //define state vars
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -87,6 +87,7 @@ const MapComponent = () => {
           }
           return [...prev, savedPlace]; //add new place to markers array
         });
+        triggerRefresh();
         setNewMarkerPosition(null); //close window
       })
       .catch((err) => {
@@ -103,6 +104,7 @@ const MapComponent = () => {
       });
       // Remove from markers state
       setMarkers((prevMarkers) => prevMarkers.filter(marker => marker._id !== id));
+      triggerRefresh();
       setSelectedMarker(null); // close InfoWindow
     }
     catch (error) {
