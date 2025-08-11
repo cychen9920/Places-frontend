@@ -1,4 +1,4 @@
-[# 🌎 Interactive Map Project 🌎](https://stellular-froyo-631564.netlify.app/)
+# 🌎 Interactive Map Project 🌎 #
 
 Welcome to my interactive map! Built with React and Express.
 
