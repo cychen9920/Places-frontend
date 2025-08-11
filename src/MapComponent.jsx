@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 import './App.css';
 
-//user auth token
-const token = localStorage.getItem("token");
-
 const containerStyle = {
   width: "100%",
   height: "500px",
@@ -125,7 +122,7 @@ const MapComponent = ( {token, triggerRefresh}) => {
         setMarkers(data);
       })
       .catch((error) => console.error("Error fetching places:", error));
-  }, []);
+  }, [token]);
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
